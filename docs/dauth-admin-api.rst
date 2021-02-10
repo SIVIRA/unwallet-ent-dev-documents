@@ -77,6 +77,16 @@ public_key
 
     "EOS7VRGNds4uyZVUxYW9G7iAeXmLnTDBjQN9XnCMkaDFfN1ppATjY"
 
+signature
+^^^^^^^^^
+
+電子署名を表す文字列。
+
+.. code-block::
+    :caption: example
+
+    "SIG_K1_KhcfweTEr66h6K8dNMz77RZvLJqu7C5SvhLE9KP1EdgELTLB8qf99HgTzjrtHdSuehfoVjujNiC5qbEc7dVh6PN8zZhycU"
+
 エンドポイント一覧
 ==================
 
@@ -233,14 +243,19 @@ POST /user/identities
 
 認証されたユーザーが操作権限を有する新しいアイデンティティを作成する。
 
+.. note:: 本エンドポイントは、dAuth wallet 経由で実行してください。
+
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
 
-======== ====== ==== ===========
-Name     Type   In   Description
-======== ====== ==== ===========
-``name`` string body アイデンティティの名称
-======== ====== ==== ===========
+============= ========== ==== ===========
+Name          Type       In   Description
+============= ========== ==== ===========
+``name``      string     body アイデンティティの名称
+``pid``       pid        body アイデンティティの PID 識別子
+``signature`` signature  body Initial Signed Hash に対する電子署名
+``publicKey`` public_key body アイデンティティの管理者権限公開鍵
+============= ========== ==== ===========
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -252,6 +267,7 @@ Name     Type   In   Description
       "name": "Sample Identity",
       "pid": "xxxxxxxxx.pid",
       "publicKey": "EOSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "nonce": 1,
       "updatedAt": 1231006505,
       "createdAt": 1231006505
     }
@@ -263,6 +279,7 @@ Name          Type       Description
 ``name``      string     アイデンティティの名称
 ``pid``       pid        アイデンティティの PID 識別子
 ``publicKey`` public_key アイデンティティに対して権限を有するキーに対応する公開鍵
+``nonce``     integer    アイデンティティのナンス（リプレイアタックを防ぐための数字であり、該当アイデンティティによってトランザクションが実行される度にインクリメントされる）
 ``updatedAt`` integer    アイデンティティ情報の最終更新時刻
 ``createdAt`` integer    アイデンティティ作成時刻
 ============= ========== ===========
@@ -288,6 +305,7 @@ GET /user/identities
         "name": "Sample Identity",
         "pid": "xxxxxxxxx.pid",
         "publicKey": "EOSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "nonce": 1,
         "updatedAt": 1231006505,
         "createdAt": 1231006505
       }
@@ -300,6 +318,7 @@ Name          Type       Description
 ``name``      string     アイデンティティの名称
 ``pid``       pid        アイデンティティの PID 識別子
 ``publicKey`` public_key アイデンティティに対して権限を有するキーに対応する公開鍵
+``nonce``     integer    アイデンティティのナンス（リプレイアタックを防ぐための数字であり、該当アイデンティティによってトランザクションが実行される度にインクリメントされる）
 ``updatedAt`` integer    アイデンティティ情報の最終更新時刻
 ``createdAt`` integer    アイデンティティ作成時刻
 ============= ========== ===========
@@ -499,6 +518,7 @@ Name           Type    In   Description
       "name": "Sample Identity",
       "pid": "xxxxxxxxx.pid",
       "publicKey": "EOSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "nonce": 1,
       "updatedAt": 1231006505,
       "createdAt": 1231006505
     }
@@ -510,6 +530,7 @@ Name          Type       Description
 ``name``      string     アイデンティティの名称
 ``pid``       pid        アイデンティティの PID 識別子
 ``publicKey`` public_key アイデンティティに対して権限を有するキーに対応する公開鍵
+``nonce``     integer    アイデンティティのナンス（リプレイアタックを防ぐための数字であり、該当アイデンティティによってトランザクションが実行される度にインクリメントされる）
 ``updatedAt`` integer    アイデンティティ情報の最終更新時刻
 ``createdAt`` integer    アイデンティティ作成時刻
 ============= ========== ===========
@@ -620,18 +641,21 @@ POST /identities/{identityID}/assetSources
 
 指定したアイデンティティによって新しいアセットソースを作成する。
 
+.. note:: 本エンドポイントは、dAuth wallet 経由で実行してください。
+
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
 
-================ ======= ==== ===========
-Name             Type    In   Description
-================ ======= ==== ===========
-``identityID``   integer path アセットソースを作成するアイデンティティの ID
-``id``           integer body アセットソースの ID
-``maxSupply``    asset   body アセットの発行量上限
-``transferable`` boolean body アセットの譲渡可否（無指定は ``false``）
-``metadata``     string  body アセットのメタデータ（JSON 文字列）
-================ ======= ==== ===========
+================ ========= ==== ===========
+Name             Type      In   Description
+================ ========= ==== ===========
+``identityID``   integer   path アセットソースを作成するアイデンティティの ID
+``id``           integer   body アセットソースの ID
+``maxSupply``    asset     body アセットの発行量上限
+``transferable`` boolean   body アセットの譲渡可否（無指定は ``false``）
+``metadata``     string    body アセットのメタデータ（JSON 文字列）
+``signature``    signature body アセットソース作成アクションに対応した Signed Hash に対する電子署名
+================ ========= ==== ===========
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -749,16 +773,19 @@ POST /assetSources/{assetSourceID}/assets
 
 指定したアセットソースから新しいアセットを発行する。
 
+.. note:: 本エンドポイントは、dAuth wallet 経由で実行してください。
+
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
 
-================= ======= ==== ===========
-Name              Type    In   Description
-================= ======= ==== ===========
-``assetSourceID`` integer path アセットソースの ID
-``pid``           pid     body アセット発行先 PID の識別子
-``quantity``      asset   body アセットの発行量
-================= ======= ==== ===========
+================= ========= ==== ===========
+Name              Type      In   Description
+================= ========= ==== ===========
+``assetSourceID`` integer   path アセットソースの ID
+``pid``           pid       body アセット発行先 PID の識別子
+``quantity``      asset     body アセットの発行量
+``signature``     signature body アセット発行アクションに対応した Signed Hash に対する電子署名
+================= ========= ==== ===========
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
