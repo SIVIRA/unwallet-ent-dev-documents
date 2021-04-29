@@ -8,4 +8,3 @@ Contents
    :maxdepth: 1
 
    dauth-api
-   dauth-admin-api
