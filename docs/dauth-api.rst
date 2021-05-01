@@ -12,7 +12,7 @@ dAuth のクライアントアプリケーション（dAuth を IDP として利
 
 .. code-block::
 
-    https://api.dev.dauth.world
+    https://api.manage-dev.dauth.world
 
 スキーマ
 --------
@@ -27,9 +27,9 @@ dAuth で作成したアプリケーションのクライアント ID とクラ�
 .. code-block:: sh
 
     $ curl -X POST \
-      https://auth.id.dev.dauth.world/oauth/token \
+      https://auth.id-dev.dauth.world/oauth/token \
       -H 'Content-Type: application/json' \
-      -d '{ "client_id": "<YOUR_CLIENT_ID>", "client_secret": "<YOUR_CLIENT_SECRET>", "audience": "https://api.dev.dauth.world", "grant_type": "client_credentials" }'
+      -d '{ "client_id": "<YOUR_CLIENT_ID>", "client_secret": "<YOUR_CLIENT_SECRET>", "audience": "https://api.manage-dev.dauth.world", "grant_type": "client_credentials" }'
 
 クライアントエラー
 ------------------
