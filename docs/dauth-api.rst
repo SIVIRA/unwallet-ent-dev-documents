@@ -9,7 +9,7 @@ dAuth のクライアントアプリケーション（dAuth をアイデンテ�
 
 .. caution::
 
-  本 API を利用するには、dAuth で作成したアプリケーションのクライアント ID とクライアントシークレットを元に取得できる API アクセストークンが必要です（下記 :ref:`認証 <auth>` の項を参照）。これらは各アプリケーションの秘密情報であるため、フロントエンドで保管しないようにしてください。すなわち、本 API は原則としてバックエンドから利用するようにしてください。
+  本 API を利用するには、dAuth で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを元に取得できる API アクセストークンが必要です（下記 :ref:`認証 <auth>` の項を参照）。これらは各クライアントアプリケーションの秘密情報であるため、フロントエンドで保管しないようにしてください。すなわち、本 API は原則としてバックエンドから利用するようにしてください。
 
 ベース URL
 ----------
@@ -28,12 +28,12 @@ dAuth のクライアントアプリケーション（dAuth をアイデンテ�
 認証
 ----
 
-dAuth で作成したアプリケーションのクライアント ID とクライアントシークレットを利用して以下（Client Credentials Flow）を実行することで取得できるアクセストークンを ``Authorization`` ヘッダに設定する。
+dAuth で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを利用して以下（Client Credentials Flow）を実行することで取得できるアクセストークンを ``Authorization`` ヘッダに設定する。
 
 .. code-block:: sh
 
     $ curl -X POST \
-      https://auth.id-dev.dauth.world/oauth/token \
+      https://auth.manage-dev.dauth.world/oauth/token \
       -H 'Content-Type: application/json' \
       -d '{ "client_id": "<YOUR_CLIENT_ID>", "client_secret": "<YOUR_CLIENT_SECRET>", "audience": "https://api.manage-dev.dauth.world", "grant_type": "client_credentials" }'
 
@@ -53,133 +53,96 @@ dAuth で作成したアプリケーションのクライアント ID とクラ�
 
     { "message": "..." }
 
-追加データ型
+データ型
 ============
 
-pid
----
+各エンドポイントのリクエストパラメータ表に記載された Type は JSON データ型であるが、一部、厳密に特定のフォーマットを要求するデータ型が存在するため、それらについて補足説明を行う。以降、これらを指す場合は、JSON データ型の名称（string など）ではなく、以下で定義する名称（address など）を使用することとする。
 
-`EOS naming conventions`_ に従った 13 文字の文字列。文字列の末尾は ``.pid``。
+address
+-------
 
-.. code-block::
-    :caption: example
+ブロックチェーンアカウントの識別子に相当する 20 バイトの値の 16 進数文字列表記。
 
-    "xxxxxxxxx.pid"
+.. note::
 
-その他
-------
-
-以下のデータ型は、`EOS built-in types`_ の同名のデータ型の文字列表記を表すこととする。
-
-asset
-^^^^^
-
-数量とシンボルを組み合わせた文字列。
+    英字に関しては大文字小文字を問いませんが、本 API のレスポンスに含まれる address には、大文字と小文字が混在した（`ERC55`_ に準拠してエンコーディングが行われた）値が使用されます。
 
 .. code-block::
     :caption: example
 
-    "1 TOKEN"
-
-bytes
-^^^^^
-
-バイト列の 16 進数表記文字列。
-
-.. code-block::
-    :caption: example
-
-    "00000000000000000100000000000000004241444745000000"
-
-checksum256
-^^^^^^^^^^^
-
-バイト列の 16 進数表記文字列。32 byte 固定。
-
-.. code-block::
-    :caption: example
-
-    "fe329d8bc2a847096c381b2e2ac24878998195b92129269287049d57649e66ca"
-
-name
-^^^^
-
-ref. `EOS naming conventions`_
-
-.. code-block::
-    :caption: example
-
-    "pidregistry1"
-
-public_key
-^^^^^^^^^^
-
-公開鍵を表す文字列。
-
-.. code-block::
-    :caption: example
-
-    "EOS7VRGNds4uyZVUxYW9G7iAeXmLnTDBjQN9XnCMkaDFfN1ppATjY"
-
-signature
-^^^^^^^^^
-
-電子署名を表す文字列。
-
-.. code-block::
-    :caption: example
-
-    "SIG_K1_KhcfweTEr66h6K8dNMz77RZvLJqu7C5SvhLE9KP1EdgELTLB8qf99HgTzjrtHdSuehfoVjujNiC5qbEc7dVh6PN8zZhycU"
+    "0xC6Fb61820696416639fce82E00f24C5DAe63c89C"
 
 エンドポイント一覧
 ==================
 
-GET /identities/{identityID}
-----------------------------
+POST /assets/initialize
+-----------------------
 
-指定したアイデンティティの情報を取得する。
+新規デジタルアセットを登録する。
+
+.. note::
+
+    POST /assets/initialize を実行した時点におけるデジタルアセットの発行量は 0 です。発行は POST /assets/mint で行います。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
 
-============== ==== ==== ===========
-Name           Type In   Description
-============== ==== ==== ===========
-``identityID`` pid  path アイデンティティの ID
-============== ==== ==== ===========
+=============== ======= ==== ===========
+Name            Type    In   Description
+=============== ======= ==== ===========
+``id``          integer body デジタルアセットの ID
+``name``        string  body デジタルアセットの名称
+``description`` string  body デジタルアセットの詳細
+``image``       string  body デジタルアセットの画像 URL
+=============== ======= ==== ===========
+
+.. caution::
+
+    デジタルアセットはブロックチェーン上に存在するため、ID は（他のユーザーが発行したデジタルアセット含め）既存のデジタルアセットと重複しない値を指定する必要があります。
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
 
 .. code-block:: json
 
-    {
-      "id": "xxxxxxxxx.pid",
-      "nonce": 1,
-      "canHoldAssets": true
-    }
+    {}
 
-================= ======= ===========
-Name              Type    Description
-================= ======= ===========
-``id``            integer アイデンティティの ID
-``nonce``         integer アイデンティティのナンス（リプレイアタックを防ぐための数字であり、該当アイデンティティによってトランザクションが実行される度にインクリメントされる）
-``canHoldAssets`` boolean アイデンティティのアセット保有可否
-================= ======= ===========
+POST /assets/mint
+-----------------
 
-GET /identities/{identityID}/keys
----------------------------------
+デジタルアセットを発行する。
 
-指定したアイデンティティに対して権限を有するキーの一覧を取得する。
+.. caution::
+
+    POST /assets/mint を実行する前に、POST /assets/initialize を実行してデジタルアセットを登録する必要があります。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
 
-============== ==== ==== ===========
-Name           Type In   Description
-============== ==== ==== ===========
-``identityID`` pid  path アイデンティティの ID
-============== ==== ==== ===========
+========== ======= ==== ===========
+Name       Type    In   Description
+========== ======= ==== ===========
+``id``     integer body デジタルアセットの ID
+``to``     string  body デジタルアセットの発行先アドレス
+``amount`` string  body デジタルアセットの発行量
+========== ======= ==== ===========
+
+レスポンスボディ
+^^^^^^^^^^^^^^^^
+
+.. code-block:: json
+
+    {}
+
+GET /assets
+-----------
+
+API の実行主体であるプロバイダーウォレットが登録したデジタルアセットの一覧を取得する。
+
+リクエストパラメータ
+^^^^^^^^^^^^^^^^^^^^
+
+なし
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -187,42 +150,116 @@ Name           Type In   Description
 .. code-block:: json
 
     [
-      {
-        "id": 0,
-        "type": "admin",
-        "publicKey": "EOSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        "expiresAt": 0
-      },
       {
         "id": 1,
-        "type": "app",
-        "publicKey": "EOSyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-        "expiresAt": 1231006505
+        "providerWalletID": "epBqMBla",
+        "name": "Asset1",
+        "description": "Asset 1",
+        "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
+        "updatedAt": 1231006505,
+        "createdAt": 1231006505
+      },
+      {
+        "id": 2,
+        "providerWalletID": "epBqMBla",
+        "name": "Asset2",
+        "description": "Asset 2",
+        "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
+        "updatedAt": 1231006505,
+        "createdAt": 1231006505
       }
     ]
 
-============= ========== ===========
-Name          Type       Description
-============= ========== ===========
-``id``        pid        キーの ID
-``type``      string     キーの種別（``"admin"`` もしくは ``"app"``）
-``publicKey`` public_key キーに対応する公開鍵
-``expiresAt`` integer    キーの有効期限（``0`` は無期限）
-============= ========== ===========
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               integer デジタルアセットの ID
+``providerWalletID`` string  デジタルアセットを発行したプロバイダーウォレットの ID
+``name``             string  デジタルアセットの名称
+``description``      string  デジタルアセットの詳細
+``image``            string  デジタルアセットの画像 URL
+``updatedAt``        integer デジタルアセットの（メタデータの）最終更新日時
+``createdAt``        integer デジタルアセットの登録日時
+==================== ======= ===========
 
-GET /identities/{identityID}/assets
------------------------------------
+GET /assets/{id}
+---------------------
 
-指定したアイデンティティが保有するアセットの一覧を取得する。
+指定したデジタルアセットの情報を取得する
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
 
-============== ==== ==== ===========
-Name           Type In   Description
-============== ==== ==== ===========
-``identityID`` pid  path アイデンティティの ID
-============== ==== ==== ===========
+====== ======= ==== ===========
+Name   Type    In   Description
+====== ======= ==== ===========
+``id`` integer path デジタルアセットの ID
+====== ======= ==== ===========
+
+レスポンスボディ
+^^^^^^^^^^^^^^^^
+
+.. code-block:: json
+
+    {
+      "id": 1,
+      "providerWalletID": "epBqMBla",
+      "name": "Asset1",
+      "description": "Asset 1",
+      "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
+      "updatedAt": 1231006505,
+      "createdAt": 1231006505
+    }
+
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               integer デジタルアセットの ID
+``providerWalletID`` string  デジタルアセットを発行したプロバイダーウォレットの ID
+``name``             string  デジタルアセットの名称
+``description``      string  デジタルアセットの詳細
+``image``            string  デジタルアセットの画像 URL
+``updatedAt``        integer デジタルアセットのメタデータの最終更新日時
+``createdAt``        integer デジタルアセットの登録日時
+==================== ======= ===========
+
+PATCH /assets/{id}
+-----------------------
+
+指定したデジタルアセットのメタデータを更新する。
+
+リクエストパラメータ
+^^^^^^^^^^^^^^^^^^^^
+
+=============== ======= ==== ===========
+Name            Type    In   Description
+=============== ======= ==== ===========
+``id``          integer path デジタルアセットの ID
+``name``        string  body デジタルアセットの名称
+``description`` string  body デジタルアセットの詳細
+``image``       string  body デジタルアセットの画像 URL
+=============== ======= ==== ===========
+
+レスポンスボディ
+^^^^^^^^^^^^^^^^
+
+.. code-block:: json
+
+    {}
+
+GET /chain/identities/{address}/assetBalances
+---------------------------------------------
+
+指定したブロックチェーンアカウントが保有するアセットの残高の一覧を取得する。
+
+リクエストパラメータ
+^^^^^^^^^^^^^^^^^^^^
+
+=========== ======= ==== ===========
+Name        Type    In   Description
+=========== ======= ==== ===========
+``address`` address path ブロックチェーンアカウントのアドレス
+=========== ======= ==== ===========
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -231,81 +268,20 @@ Name           Type In   Description
 
     [
       {
-        "assetSourceID": 0,
-        "quantity": "1 TOKEN"
+        "id": 1,
+        "amount": 1
+      },
+      {
+        "id": 2,
+        "amount": 1
       }
     ]
 
-================= ======= ===========
-Name              Type    Description
-================= ======= ===========
-``assetSourceID`` integer アセットソースの ID
-``quantity``      asset   アセットの量
-================= ======= ===========
+========== ======= ===========
+Name       Type    Description
+========== ======= ===========
+``id``     integer デジタルアセットの ID
+``amount`` integer デジタルアセットの残高
+========== ======= ===========
 
-POST /identities/{identityID}/transactions
-------------------------------------------
-
-指定したアイデンティティからトランザクションを実行する。
-
-リクエストパラメータ
-^^^^^^^^^^^^^^^^^^^^
-
-============== ========= ==== ===========
-Name           Type      In   Description
-============== ========= ==== ===========
-``identityID`` pid       path アイデンティティの ID
-``contract``   name      body 実行したいアクションを提供するコントラクトがデプロイされたアカウントの名前
-``action``     name      body 実行したいアクションの名前
-``data``       bytes     body 実行したいアクションの引数を EOS のエンコーディングルールに従ってエンコードしたデータ
-``signature``  signature body トランザクションの内容に対応した Signed Hash に対する電子署名
-============== ========= ==== ===========
-
-レスポンスボディ
-^^^^^^^^^^^^^^^^
-
-.. code-block:: json
-
-    {
-      "id": "0000000000000000000000000000000000000000000000000000000000000000"
-    }
-
-====== =========== ===========
-Name   Type        Description
-====== =========== ===========
-``id`` checksum256 トランザクションの ID
-====== =========== ===========
-
-GET /transactions/{transactionID}
----------------------------------
-
-指定したトランザクションの情報を取得する。
-
-リクエストパラメータ
-^^^^^^^^^^^^^^^^^^^^
-
-================= =========== ==== ===========
-Name              Type        In   Description
-================= =========== ==== ===========
-``transactionID`` checksum256 path トランザクションの ID
-================= =========== ==== ===========
-
-レスポンスボディ
-^^^^^^^^^^^^^^^^
-
-.. code-block:: json
-
-    {
-      "id": "0000000000000000000000000000000000000000000000000000000000000000",
-      "status": "executed"
-    }
-
-========== =========== ===========
-Name       Type        Description
-========== =========== ===========
-``id``     checksum256 トランザクションの ID
-``status`` string      トランザクションのステータス（``"executing"`` もしくは ``"executed"``）
-========== =========== ===========
-
-.. _EOS naming conventions: https://developers.eos.io/manuals/eosio.cdt/latest/best-practices/naming-conventions
-.. _EOS built-in types: https://github.com/EOSIO/eos/blob/de78b49b5765c88f4e005046d1489c3905985b94/libraries/chain/abi_serializer.cpp#L89-L127
+.. _ERC55: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
