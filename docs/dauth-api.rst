@@ -247,10 +247,10 @@ Name            Type    In   Description
 
     {}
 
-GET /chain/identities/{address}/assetBalances
+GET /chain/identities/{address}/tokenBalances
 ---------------------------------------------
 
-指定したブロックチェーンアカウントが保有するアセットの残高の一覧を取得する。
+指定したブロックチェーンアカウントが保有するトークンの残高の一覧を取得する。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -280,8 +280,45 @@ Name        Type    In   Description
 ========== ======= ===========
 Name       Type    Description
 ========== ======= ===========
-``id``     integer デジタルアセットの ID
-``amount`` integer デジタルアセットの残高
+``id``     integer トークンの ID
+``amount`` integer トークンの残高
+========== ======= ===========
+
+GET /chain/identities/{address}/badgeBalances
+---------------------------------------------
+
+指定したブロックチェーンアカウントが保有するバッジの残高の一覧を取得する。
+
+リクエストパラメータ
+^^^^^^^^^^^^^^^^^^^^
+
+=========== ======= ==== ===========
+Name        Type    In   Description
+=========== ======= ==== ===========
+``address`` address path ブロックチェーンアカウントのアドレス
+=========== ======= ==== ===========
+
+レスポンスボディ
+^^^^^^^^^^^^^^^^
+
+.. code-block:: json
+
+    [
+      {
+        "id": 1,
+        "amount": 1
+      },
+      {
+        "id": 2,
+        "amount": 1
+      }
+    ]
+
+========== ======= ===========
+Name       Type    Description
+========== ======= ===========
+``id``     integer バッジ ID
+``amount`` integer バッジ残高
 ========== ======= ===========
 
 .. _ERC55: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
