@@ -75,14 +75,14 @@ address
 エンドポイント一覧
 ==================
 
-POST /assets/initialize
+POST /tokens/initialize
 -----------------------
 
-新規デジタルアセットを登録する。
+新規トークンを登録する。
 
 .. note::
 
-    POST /assets/initialize を実行した時点におけるデジタルアセットの発行量は 0 です。発行は POST /assets/mint で行います。
+    POST /tokens/initialize を実行した時点におけるトークンの発行量は 0 です。発行は POST /tokens/mint で行います。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -90,15 +90,15 @@ POST /assets/initialize
 =============== ======= ==== ===========
 Name            Type    In   Description
 =============== ======= ==== ===========
-``id``          integer body デジタルアセットの ID
-``name``        string  body デジタルアセットの名称
-``description`` string  body デジタルアセットの詳細
-``image``       string  body デジタルアセットの画像 URL
+``id``          integer body トークンの ID
+``name``        string  body トークンの名称
+``description`` string  body トークンの詳細
+``image``       string  body トークンの画像 URL
 =============== ======= ==== ===========
 
 .. caution::
 
-    デジタルアセットはブロックチェーン上に存在するため、ID は（他のユーザーが発行したデジタルアセット含め）既存のデジタルアセットと重複しない値を指定する必要があります。
+    トークンはブロックチェーン上に存在するため、ID は（他のユーザーが発行したトークン含め）既存のトークンと重複しない値を指定する必要があります。
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -107,14 +107,14 @@ Name            Type    In   Description
 
     {}
 
-POST /assets/mint
+POST /tokens/mint
 -----------------
 
-デジタルアセットを発行する。
+トークンを発行する。
 
 .. caution::
 
-    POST /assets/mint を実行する前に、POST /assets/initialize を実行してデジタルアセットを登録する必要があります。
+    POST /tokens/mint を実行する前に、POST /tokens/initialize を実行してトークンを登録する必要があります。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -122,9 +122,9 @@ POST /assets/mint
 ========== ======= ==== ===========
 Name       Type    In   Description
 ========== ======= ==== ===========
-``id``     integer body デジタルアセットの ID
-``to``     string  body デジタルアセットの発行先アドレス
-``amount`` string  body デジタルアセットの発行量
+``id``     integer body トークンの ID
+``to``     string  body トークンの発行先アドレス
+``amount`` string  body トークンの発行量
 ========== ======= ==== ===========
 
 レスポンスボディ
@@ -134,10 +134,10 @@ Name       Type    In   Description
 
     {}
 
-GET /assets
+GET /tokens
 -----------
 
-API の実行主体であるプロバイダーウォレットが登録したデジタルアセットの一覧を取得する。
+API の実行主体であるプロバイダーウォレットが登録したトークンの一覧を取得する。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -153,8 +153,8 @@ API の実行主体であるプロバイダーウォレットが登録したデ�
       {
         "id": 1,
         "providerWalletID": "epBqMBla",
-        "name": "Asset1",
-        "description": "Asset 1",
+        "name": "Token1",
+        "description": "Token 1",
         "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
         "updatedAt": 1231006505,
         "createdAt": 1231006505
@@ -162,8 +162,8 @@ API の実行主体であるプロバイダーウォレットが登録したデ�
       {
         "id": 2,
         "providerWalletID": "epBqMBla",
-        "name": "Asset2",
-        "description": "Asset 2",
+        "name": "Token2",
+        "description": "Token 2",
         "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
         "updatedAt": 1231006505,
         "createdAt": 1231006505
@@ -173,19 +173,19 @@ API の実行主体であるプロバイダーウォレットが登録したデ�
 ==================== ======= ===========
 Name                 Type    Description
 ==================== ======= ===========
-``id``               integer デジタルアセットの ID
-``providerWalletID`` string  デジタルアセットを発行したプロバイダーウォレットの ID
-``name``             string  デジタルアセットの名称
-``description``      string  デジタルアセットの詳細
-``image``            string  デジタルアセットの画像 URL
-``updatedAt``        integer デジタルアセットの（メタデータの）最終更新日時
-``createdAt``        integer デジタルアセットの登録日時
+``id``               integer トークンの ID
+``providerWalletID`` string  トークンを発行したプロバイダーウォレットの ID
+``name``             string  トークンの名称
+``description``      string  トークンの詳細
+``image``            string  トークンの画像 URL
+``updatedAt``        integer トークンの（メタデータの）最終更新日時
+``createdAt``        integer トークンの登録日時
 ==================== ======= ===========
 
-GET /assets/{id}
+GET /tokens/{id}
 ---------------------
 
-指定したデジタルアセットの情報を取得する
+指定したトークンの情報を取得する
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -193,7 +193,7 @@ GET /assets/{id}
 ====== ======= ==== ===========
 Name   Type    In   Description
 ====== ======= ==== ===========
-``id`` integer path デジタルアセットの ID
+``id`` integer path トークンの ID
 ====== ======= ==== ===========
 
 レスポンスボディ
@@ -204,8 +204,8 @@ Name   Type    In   Description
     {
       "id": 1,
       "providerWalletID": "epBqMBla",
-      "name": "Asset1",
-      "description": "Asset 1",
+      "name": "Token1",
+      "description": "Token 1",
       "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
       "updatedAt": 1231006505,
       "createdAt": 1231006505
@@ -214,19 +214,19 @@ Name   Type    In   Description
 ==================== ======= ===========
 Name                 Type    Description
 ==================== ======= ===========
-``id``               integer デジタルアセットの ID
-``providerWalletID`` string  デジタルアセットを発行したプロバイダーウォレットの ID
-``name``             string  デジタルアセットの名称
-``description``      string  デジタルアセットの詳細
-``image``            string  デジタルアセットの画像 URL
-``updatedAt``        integer デジタルアセットのメタデータの最終更新日時
-``createdAt``        integer デジタルアセットの登録日時
+``id``               integer トークンの ID
+``providerWalletID`` string  トークンを発行したプロバイダーウォレットの ID
+``name``             string  トークンの名称
+``description``      string  トークンの詳細
+``image``            string  トークンの画像 URL
+``updatedAt``        integer トークンのメタデータの最終更新日時
+``createdAt``        integer トークンの登録日時
 ==================== ======= ===========
 
-PATCH /assets/{id}
+PATCH /tokens/{id}
 -----------------------
 
-指定したデジタルアセットのメタデータを更新する。
+指定したトークンのメタデータを更新する。
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -234,10 +234,10 @@ PATCH /assets/{id}
 =============== ======= ==== ===========
 Name            Type    In   Description
 =============== ======= ==== ===========
-``id``          integer path デジタルアセットの ID
-``name``        string  body デジタルアセットの名称
-``description`` string  body デジタルアセットの詳細
-``image``       string  body デジタルアセットの画像 URL
+``id``          integer path トークンの ID
+``name``        string  body トークンの名称
+``description`` string  body トークンの詳細
+``image``       string  body トークンの画像 URL
 =============== ======= ==== ===========
 
 レスポンスボディ
