@@ -247,6 +247,35 @@ Name            Type    In   Description
 
     {}
 
+POST /metaTransactions
+----------------------
+
+指定したコントラクトウォレットアカウントから指定した処理を実行する。
+
+リクエストパラメータ
+^^^^^^^^^^^^^^^^^^^^
+
+=============== ======= ==== ===========
+Name            Type    In   Description
+=============== ======= ==== ===========
+``executor``    address body 処理を実行するコントラクトウォレットアカウントのアドレス
+``data``        string  body 処理の内容
+``signature``   string  body 処理の内容に対する電子署名
+=============== ======= ==== ===========
+
+.. note::
+
+    ``signature`` は、``executor`` のオーナーであるブロックチェーンアカウントによって作成されたものである必要があります。
+
+    リクエストパラメータを用意する方法については `dAuth client-side SDK for JavaScript`_ のドキュメントを参照してください。
+
+レスポンスボディ
+^^^^^^^^^^^^^^^^
+
+.. code-block:: json
+
+    {}
+
 GET /chain/identities/{address}/tokenBalances
 ---------------------------------------------
 
@@ -321,4 +350,5 @@ Name       Type    Description
 ``amount`` integer バッジ残高
 ========== ======= ===========
 
+.. _dAuth client-side SDK for JavaScript: https://github.com/SIVIRA/dauth-client-sdk-js
 .. _ERC55: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
