@@ -1,15 +1,15 @@
-======================
-dAuth API リファレンス
-======================
+=========================
+unWallet API リファレンス
+=========================
 
 概要
 ====
 
-dAuth のクライアントアプリケーション（dAuth をアイデンティティプロバイダーとして利用するアプリケーション）のバックエンド構築をサポートする API。
+unWallet のクライアントアプリケーション（unWallet をアイデンティティプロバイダーとして利用するアプリケーション）のバックエンド構築をサポートする API。
 
 .. caution::
 
-  本 API を利用するには、dAuth で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを元に取得できる API アクセストークンが必要です（下記 :ref:`認証 <auth>` の項を参照）。これらは各クライアントアプリケーションの秘密情報であるため、フロントエンドで保管しないようにしてください。すなわち、本 API は原則としてバックエンドから利用するようにしてください。
+  本 API を利用するには、unWallet で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを元に取得できる API アクセストークンが必要です（下記 :ref:`認証 <auth>` の項を参照）。これらは各クライアントアプリケーションの秘密情報であるため、フロントエンドで保管しないようにしてください。すなわち、本 API は原則としてバックエンドから利用するようにしてください。
 
 ベース URL
 ----------
@@ -28,7 +28,7 @@ dAuth のクライアントアプリケーション（dAuth をアイデンテ�
 認証
 ----
 
-dAuth で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを利用して以下（Client Credentials Flow）を実行することで取得できるアクセストークンを ``Authorization`` ヘッダに設定する。
+unWallet で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを利用して以下（Client Credentials Flow）を実行することで取得できるアクセストークンを ``Authorization`` ヘッダに設定する。
 
 .. code-block:: sh
 
@@ -267,7 +267,7 @@ Name            Type    In   Description
 
     ``signature`` は、``executor`` のオーナーであるブロックチェーンアカウントによって作成されたものである必要があります。
 
-    リクエストパラメータを用意する方法については `dAuth client-side SDK for JavaScript`_ のドキュメントを参照してください。
+    リクエストパラメータを用意する方法については `unWallet client-side SDK for JavaScript`_ のドキュメントを参照してください。
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -350,5 +350,5 @@ Name       Type    Description
 ``amount`` integer バッジ残高
 ========== ======= ===========
 
-.. _dAuth client-side SDK for JavaScript: https://github.com/SIVIRA/dauth-client-sdk-js
+.. _unWallet client-side SDK for JavaScript: https://github.com/SIVIRA/unwallet-client-sdk-js
 .. _ERC55: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
