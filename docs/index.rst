@@ -1,5 +1,5 @@
-dAuth 開発者向けドキュメント
-============================
+unWallet 開発者向けドキュメント
+===============================
 
 Contents
 --------
@@ -7,4 +7,4 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   dauth-api
+   unwallet-api
