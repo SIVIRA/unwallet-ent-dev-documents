@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'dAuth'
+project = 'unWallet Enterprise'
 copyright = '2021, SIVIRA Inc.'
 author = 'SIVIRA Inc.'
 

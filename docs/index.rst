@@ -1,5 +1,5 @@
-unWallet 開発者向けドキュメント
-===============================
+unWallet Enterprise 開発者向けドキュメント
+==========================================
 
 Contents
 --------
@@ -7,4 +7,4 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   unwallet-api
+   unwallet-ent-api
