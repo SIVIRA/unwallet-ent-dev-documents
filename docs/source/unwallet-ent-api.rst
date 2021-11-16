@@ -267,7 +267,7 @@ Name            Type    In   Description
 
     ``signature`` は、``executor`` のオーナーであるブロックチェーンアカウントによって作成されたものである必要があります。
 
-    リクエストパラメータを用意する方法については `unWallet client-side SDK for JavaScript`_ のドキュメントを参照してください。
+    リクエストパラメータを用意する方法については `unWallet client-side SDK`_ のドキュメントを参照してください。
 
 レスポンスボディ
 ^^^^^^^^^^^^^^^^
@@ -350,5 +350,5 @@ Name       Type    Description
 ``amount`` integer バッジ残高
 ========== ======= ===========
 
-.. _unWallet client-side SDK for JavaScript: https://github.com/SIVIRA/unwallet-client-sdk-js
+.. _unWallet client-side SDK: https://github.com/SIVIRA/unwallet-client-sdk-js
 .. _ERC55: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
