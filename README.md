@@ -4,7 +4,7 @@
 
 ## Build
 
-Requires [sphinx](https://sphinx-doc.org).
+Requires [sphinx](https://www.sphinx-doc.org).
 
 ```sh
 $ cd docs
