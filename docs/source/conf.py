@@ -44,7 +44,7 @@ language = 'ja'
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-pygments_style = 'paraiso-dark'
+pygments_style = 'material'
 
 
 # -- Options for HTML output -------------------------------------------------
