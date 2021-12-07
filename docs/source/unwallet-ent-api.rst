@@ -16,7 +16,7 @@ unWallet のクライアントアプリケーション（unWallet をアイデ�
 
 .. code-block::
 
-    https://api.manage-dev.dauth.world
+    https://api.ent.unwallet.dev
 
 スキーマ
 --------
@@ -33,9 +33,9 @@ unWallet Enterprise で作成したプロバイダーウォレットのクライ
 .. code-block:: sh
 
     $ curl -X POST \
-      https://auth.manage-dev.dauth.world/oauth/token \
+      https://auth.ent.unwallet.dev/oauth/token \
       -H 'Content-Type: application/json' \
-      -d '{ "client_id": "<YOUR_CLIENT_ID>", "client_secret": "<YOUR_CLIENT_SECRET>", "audience": "https://api.manage-dev.dauth.world", "grant_type": "client_credentials" }'
+      -d '{ "client_id": "<YOUR_CLIENT_ID>", "client_secret": "<YOUR_CLIENT_SECRET>", "audience": "https://api.ent.unwallet.dev", "grant_type": "client_credentials" }'
 
 クライアントエラー
 ------------------
