@@ -9,7 +9,7 @@ unWallet のクライアントアプリケーション（unWallet をアイデ�
 
 .. caution::
 
-  本 API を利用するには、unWallet Enterprise で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを元に取得できる API アクセストークンが必要です（下記 :ref:`認証 <auth>` の項を参照）。これらは各クライアントアプリケーションの秘密情報であるため、フロントエンドで保管しないようにしてください。すなわち、本 API は原則としてバックエンドから利用するようにしてください。
+  本 API を利用するには、unWallet Enterprise で作成したプロバイダーウォレットの API トークンが必要です。これらは各クライアントアプリケーションの秘密情報であるため、フロントエンドで保管しないようにしてください。すなわち、本 API は原則としてバックエンドから利用するようにしてください。
 
 ベース URL
 ----------
@@ -28,14 +28,7 @@ unWallet のクライアントアプリケーション（unWallet をアイデ�
 認証
 ----
 
-unWallet Enterprise で作成したプロバイダーウォレットのクライアント ID とクライアントシークレットを利用して以下（Client Credentials Flow）を実行することで取得できるアクセストークンを ``Authorization`` ヘッダに設定する。
-
-.. code-block:: sh
-
-    $ curl -X POST \
-      https://auth.ent.unwallet.dev/oauth/token \
-      -H 'Content-Type: application/json' \
-      -d '{ "client_id": "<YOUR_CLIENT_ID>", "client_secret": "<YOUR_CLIENT_SECRET>", "audience": "https://api.ent.unwallet.dev", "grant_type": "client_credentials" }'
+unWallet Enterprise で作成したプロバイダーウォレットの API トークンを ``Authorization`` ヘッダに設定する。
 
 クライアントエラー
 ------------------
