@@ -14,9 +14,12 @@ unWallet のクライアントアプリケーション（unWallet をアイデ�
 ベース URL
 ----------
 
-.. code-block::
-
-    https://api.ent.unwallet.dev
+======= ========
+Env     Base URL
+======= ========
+mainnet https://api.ent.unwallet.world
+testnet https://api.ent.unwallet.dev
+======= ========
 
 スキーマ
 --------
