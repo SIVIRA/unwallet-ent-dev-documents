@@ -117,7 +117,7 @@ Name       Type    In   Description
 ========== ======= ==== ===========
 ``id``     integer body トークンの ID
 ``to``     string  body トークンの発行先アドレス
-``amount`` string  body トークンの発行量
+``amount`` integer body トークンの発行量
 ========== ======= ==== ===========
 
 レスポンスボディ
