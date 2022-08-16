@@ -101,7 +101,25 @@ Name            Type    In   Description
 
 .. code-block:: json
 
-    {}
+    {
+      "id": "evDYLBOy",
+      "providerWalletID": "epBqMBla",
+      "hash": null,
+      "status": "pending",
+      "updatedAt": 1231006505,
+      "createdAt": 1231006505
+    }
+
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               string  トランザクション情報の ID
+``providerWalletID`` string  トランザクションを発行したプロバイダーウォレットの ID
+``hash``             string  トランザクションのハッシュ（ブロックチェーンに対して送信されるまでは ``null``）
+``status``           string  トランザクションのステータス（``"pending"`` ``"success"`` ``"failure"`` のいずれか）
+``updatedAt``        integer トランザクション情報の最終更新日時
+``createdAt``        integer トランザクション情報の登録日時
+==================== ======= ===========
 
 POST /tokens/mint
 -----------------
@@ -128,7 +146,25 @@ Name       Type    In   Description
 
 .. code-block:: json
 
-    {}
+    {
+      "id": "evDYLBOy",
+      "providerWalletID": "epBqMBla",
+      "hash": null,
+      "status": "pending",
+      "updatedAt": 1231006505,
+      "createdAt": 1231006505
+    }
+
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               string  トランザクション情報の ID
+``providerWalletID`` string  トランザクションを発行したプロバイダーウォレットの ID
+``hash``             string  トランザクションのハッシュ（ブロックチェーンに対して送信されるまでは ``null``）
+``status``           string  トランザクションのステータス（``"pending"`` ``"success"`` ``"failure"`` のいずれか）
+``updatedAt``        integer トランザクション情報の最終更新日時
+``createdAt``        integer トランザクション情報の登録日時
+==================== ======= ===========
 
 GET /tokens
 -----------
@@ -181,7 +217,7 @@ Name                 Type    Description
 GET /tokens/{id}
 ---------------------
 
-指定したトークンの情報を取得する
+指定したトークンを取得する
 
 リクエストパラメータ
 ^^^^^^^^^^^^^^^^^^^^
@@ -270,7 +306,70 @@ Name            Type    In   Description
 
 .. code-block:: json
 
-    {}
+    {
+      "id": "evDYLBOy",
+      "providerWalletID": "epBqMBla",
+      "hash": null,
+      "status": "pending",
+      "updatedAt": 1231006505,
+      "createdAt": 1231006505
+    }
+
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               string  トランザクション情報の ID
+``providerWalletID`` string  トランザクションを発行したプロバイダーウォレットの ID
+``hash``             string  トランザクションのハッシュ（ブロックチェーンに対して送信されるまでは ``null``）
+``status``           string  トランザクションのステータス（``"pending"`` ``"success"`` ``"failure"`` のいずれか）
+``updatedAt``        integer トランザクション情報の最終更新日時
+``createdAt``        integer トランザクション情報の登録日時
+==================== ======= ===========
+
+GET /transactions/{id}
+----------------------
+
+指定したトランザクション情報を取得する。
+
+リクエストパラメータ
+^^^^^^^^^^^^^^^^^^^^
+
+====== ====== ==== ===========
+Name   Type    In   Description
+====== ====== ==== ===========
+``id`` string path トランザクション情報の ID
+====== ====== ==== ===========
+
+レスポンスボディ
+^^^^^^^^^^^^^^^^
+
+.. caution::
+
+  レスポンスに含まれる ``hash`` は変わる可能性がありますので、ご注意ください。なお、``status`` が ``"success"`` もしくは ``"failure"`` になった後で変わることはありません。
+
+  ``hash`` の変更は基本的には発生しませんが、トランザクションがブロックチェーンに取り込まれやすくなるよう、unWallet Enterprise がトランザクションの nonce や gas 関連パラメータを調整した際に発生します。
+
+.. code-block:: json
+
+    {
+      "id": "evDYLBOy",
+      "providerWalletID": "epBqMBla",
+      "hash": "0xe3695a90fa745eedd4d16d54eb9e2b013ba7a48b00758edecc734c2d9013753c",
+      "status": "pending",
+      "updatedAt": 1231006505,
+      "createdAt": 1231006505
+    }
+
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               string  トランザクション情報の ID
+``providerWalletID`` string  トランザクションを発行したプロバイダーウォレットの ID
+``hash``             string  トランザクションのハッシュ（ブロックチェーンに対して送信されるまでは ``null``）
+``status``           string  トランザクションのステータス（``"pending"`` ``"success"`` ``"failure"`` のいずれか）
+``updatedAt``        integer トランザクション情報の最終更新日時
+``createdAt``        integer トランザクション情報の登録日時
+==================== ======= ===========
 
 GET /chain/identities/{address}/tokenBalances
 ---------------------------------------------
