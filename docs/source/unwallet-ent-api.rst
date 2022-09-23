@@ -277,7 +277,27 @@ Name            Type    In   Description
 
 .. code-block:: json
 
-    {}
+    {
+      "id": 1,
+      "providerWalletID": "epBqMBla",
+      "name": "Token1",
+      "description": "Token 1",
+      "image": "https://dummyimage.com/256x256/0092a5/ffffff.png",
+      "updatedAt": 1231006505,
+      "createdAt": 1231006505
+    }
+
+==================== ======= ===========
+Name                 Type    Description
+==================== ======= ===========
+``id``               integer トークンの ID
+``providerWalletID`` string  トークンを発行したプロバイダーウォレットの ID
+``name``             string  トークンの名称
+``description``      string  トークンの詳細
+``image``            string  トークンの画像 URL
+``updatedAt``        integer トークンのメタデータの最終更新日時
+``createdAt``        integer トークンの登録日時
+==================== ======= ===========
 
 POST /metaTransactions
 ----------------------
