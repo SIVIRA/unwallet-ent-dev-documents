@@ -137,7 +137,7 @@ POST /tokens/mint
 Name       Type    In   Description
 ========== ======= ==== ===========
 ``id``     integer body トークンの ID
-``to``     string  body トークンの発行先アドレス
+``to``     address body トークンの発行先アドレス
 ``amount`` integer body トークンの発行量
 ========== ======= ==== ===========
 
